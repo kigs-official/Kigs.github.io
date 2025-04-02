@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <h2>Welcome, {{ username }}!</h2>
+    <ul id="messages"></ul>
+    <input id="message_input" autocomplete="off">
+    <button onclick="sendMessage()">Send</button>
+    <br><a href="/logout">Logout</a>
+
+    <script>
+        var socket = io();
+        socket.on('message', function(msg) {
+            var li = document.createElement("li");
+            li.textContent = msg;
+            document.getElementById("messages").appendChild(li);
+        });
+
+        function sendMessage() {
+            var msg = document.getElementById("message_input").value;
+            socket.send(msg);
+            document.getElementById("message_input").value = '';
+        }
+    </script>
+</body>
+</html>
