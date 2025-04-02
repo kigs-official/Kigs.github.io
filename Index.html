@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporary Chat System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #chat-container { border: 1px solid #ccc; padding: 10px; max-width: 500px; margin: auto; }
+        #messages { list-style-type: none; padding: 0; height: 300px; overflow-y: scroll; }
+        #messages li { padding: 5px; border-bottom: 1px solid #eee; }
+        #message_input { width: calc(100% - 70px); padding: 5px; }
+        #send_button { padding: 6px 12px; }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <h2>Welcome to the Chat Room</h2>
+        <ul id="messages"></ul>
+        <input id="message_input" autocomplete="off" placeholder="Type your message here...">
+        <button id="send_button" onclick="sendMessage()">Send</button>
+    </div><script>
+    var socket = io();
+    socket.on('message', function(msg) {
+        var li = document.createElement("li");
+        li.textContent = msg;
+        document.getElementById("messages").appendChild(li);
+    });
+
+    function sendMessage() {
+        var msg = document.getElementById("message_input").value;
+        socket.send(msg);
+        document.getElementById("message_input").value = '';
+    }
+</script>
+
+</body>
+</html>
